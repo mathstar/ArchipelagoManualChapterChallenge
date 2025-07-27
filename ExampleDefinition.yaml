@@ -1,0 +1,63 @@
+# Name of the game - will be included in the output filenames
+name: Example Game
+# Optional description of the game definition
+description: This is an example game definition file.
+
+# Name of the progression items. One of each of these items will be required to unlock the next chapter.
+# Generally should only be a single item, but if you want to require multiple items to progress, you can define multiple
+# keeping in mind that for successful generation when solo you will need to ensure there are enough challenges in each
+# chapter to allow for the required number of items.
+progression_items:
+  - Progressive Chapter
+
+# The chapters in the game along with their challenges. Each chapter must have at least one challenge.
+# Challenges have a name and optional flags:
+# - goal: If true, this challenge is required to complete the game.
+# - excluded: If true, this challenge will always be "excluded" meaning it will be filled with a non-progression item.
+# - priority: If true, this challenge will always be prioritized meaning AP will attempt to fill it with a progression item.
+chapters:
+  - name: "Chapter 1: The Beginning"
+    challenges:
+      - name: Complete the Chapter
+      - name: Find all the coins
+        excluded: true
+      - name: Defeat the boss
+        priority: true
+  - name: "Chapter 2: The Journey Continues"
+    challenges:
+      - name: Solve the puzzle
+  - name: "Chapter 3: The Final Showdown"
+    challenges:
+      - name: Defeat the final boss
+        goal: true
+      - name: Collect the ultimate weapon
+        excluded: true
+
+# The filler items that will be used to fill in any item slots not filled by progression items. You can define any
+# categories you want. If no filler items are defined, a default "Filler" item will be used for any empty slots.
+# Each category can have:
+# - weight: determines how often items from that category will be chosen (higher is more common)
+# - include_confirmation_locations: if true, dummy locations will be created for each item from this category to assist in
+#                                 confirming the item has been applied.
+# - items: a list of items in this category. Each item can have:
+#   - name: the name of the item
+#   - weight: optional weight for the item within the category (higher is more common, defaults to 1)
+filler_item_categories:
+  useful:
+    weight: 4
+    include_confirmation_locations: true
+    items:
+      - name: 100 Coins
+      - name: 1 Health Potion
+  traps:
+    weight: 2
+    include_confirmation_locations: true
+    items:
+      - name: "-100 Coins"
+        weight: 2
+      - name: Damage Trap
+  filler:
+    weight: 1
+    include_confirmation_locations: false
+    items:
+      - Filler
